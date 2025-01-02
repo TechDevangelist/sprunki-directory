@@ -2,3 +2,7 @@
 title: Sprunki Directory
 description: A web directory of Sprunki games
 theme: jekyll-theme-midnight
+
+collections:
+  games:
+    output: true
