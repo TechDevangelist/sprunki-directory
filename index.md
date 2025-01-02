@@ -7,9 +7,9 @@ title: Sprunki
 This is a static site for Sprunki games
 
 <ul>
-  {% for post in site.posts %}
+  {% for game in site.games %}
     <li>
-      <a href="{{ post.url }}">{{ post.title }}</a>
+      <a href="{{ game.url }}">{{ game.title }}</a>
     </li>
   {% endfor %}
 </ul>
