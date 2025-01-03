@@ -31,15 +31,33 @@
         function openModal(iframeUrl) {
             const modal = document.getElementById('modal');
             const iframe = document.getElementById('modal-iframe');
+            
+            // Reset iframe dimensions
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            
+            // Set source and show modal
             iframe.src = iframeUrl;
             modal.style.display = 'flex';
+            
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
             const modal = document.getElementById('modal');
             const iframe = document.getElementById('modal-iframe');
+            
+            // Reset iframe
             iframe.src = '';
+            iframe.style.width = '';
+            iframe.style.height = '';
+            
+            // Hide modal
             modal.style.display = 'none';
+            
+            // Restore body scroll
+            document.body.style.overflow = '';
         }
 
         function handleModalClose(event) {
@@ -49,11 +67,24 @@
             }
         }
 
+        // Handle both mouse and touch events
         window.addEventListener('click', handleModalClose);
         window.addEventListener('touchend', handleModalClose);
 
-        document.getElementById('modal-iframe').addEventListener('touchstart', function(e) {
+        // Prevent iframe from swallowing touch events
+        const iframe = document.getElementById('modal-iframe');
+        iframe.addEventListener('touchstart', function(e) {
             e.stopPropagation();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const modal = document.getElementById('modal');
+            if (modal.style.display === 'flex') {
+                const iframe = document.getElementById('modal-iframe');
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+            }
         });
     </script>
 </body>
