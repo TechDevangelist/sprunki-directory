@@ -20,20 +20,47 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Create safe title
+        id: safe_title
+        run: |
+          # Convert to lowercase, replace spaces with hyphens, remove special chars
+          SAFE_TITLE=$(echo "${{ inputs.title }}" | \
+            tr '[:upper:]' '[:lower:]' | \
+            tr -s '[:space:]' '-' | \
+            tr -cd '[:alnum:]-' | \
+            sed -E 's/-+/-/g; s/^-+//; s/-+$//')
+          echo "safe_title=$SAFE_TITLE" >> $GITHUB_OUTPUT
+
       - name: Create game file
         run: |
-          echo "---" > _games/${{ inputs.title }}.md
-          echo "title: ${{ inputs.title }}" >> _games/${{ inputs.title }}.md
-          echo "iframe_url: ${{ inputs.iframe_url }}" >> _games/${{ inputs.title }}.md
-          echo "---" >> _games/${{ inputs.title }}.md
+          echo "---" > _games/${{ steps.safe_title.outputs.safe_title }}.md
+          echo "title: ${{ inputs.title }}" >> _games/${{ steps.safe_title.outputs.safe_title }}.md
+          echo "iframe_url: ${{ inputs.iframe_url }}" >> _games/${{ steps.safe_title.outputs.safe_title }}.md
+          echo "screenshot: /assets/games/${{ steps.safe_title.outputs.safe_title }}.png" >> _games/${{ steps.safe_title.outputs.safe_title }}.md
+          echo "---" >> _games/${{ steps.safe_title.outputs.safe_title }}.md
 
-      - name: Save screenshot
+      - name: Download and validate screenshot
         run: |
           mkdir -p assets/games
-          mv ${{ inputs.screenshot }} assets/games/${{ inputs.title }}.png
+          SCREENSHOT_PATH="assets/games/${{ steps.safe_title.outputs.safe_title }}.png"
+          
+          # Download the screenshot
+          if ! curl -s -f -o "$SCREENSHOT_PATH" "${{ inputs.screenshot }}"; then
+            echo "Failed to download screenshot from ${{ inputs.screenshot }}"
+            exit 1
+          fi
+          
+          # Validate it's an image file
+          if ! file "$SCREENSHOT_PATH" | grep -qE 'image|bitmap'; then
+            echo "Downloaded file is not a valid image"
+            rm "$SCREENSHOT_PATH"
+            exit 1
+          fi
 
       - name: Commit and push changes
         run: |
+          git config --global user.name "sprunki-action"
+          git config --global user.email "sprunki-action@localhots"
           git add .
           git commit -m "Add new game: ${{ inputs.title }}"
           git push origin main
