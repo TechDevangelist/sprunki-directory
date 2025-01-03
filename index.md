@@ -77,9 +77,28 @@ title: Sprunki
         top: 10px;
         right: 10px;
         color: #fff;
-        font-size: 24px;
+        font-size: 36px;
         font-weight: bold;
         cursor: pointer;
+        padding: 10px;
+        z-index: 1001;
+    }
+
+    .close:hover {
+        color: #ccc;
+    }
+
+    .modal-content {
+        position: relative;
+        background-color: #121212;
+        padding: 40px;
+        border-radius: 10px;
+        width: 90%;
+        height: 90%;
+        max-width: 1200px;
+        max-height: 800px;
+        margin: 20px;
+        touch-action: manipulation;
     }
     iframe {
         width: 100%;
@@ -104,10 +123,19 @@ title: Sprunki
         modal.style.display = 'none';
     }
 
-    window.onclick = function(event) {
-        const modal = document.getElementById('modal');
-        if (event.target === modal) {
-            closeModal();
-        }
-    };
+    // Handle both mouse and touch events
+function handleModalClose(event) {
+    const modal = document.getElementById('modal');
+    if (event.target === modal) {
+        closeModal();
+    }
+}
+
+window.addEventListener('click', handleModalClose);
+window.addEventListener('touchend', handleModalClose);
+
+// Prevent iframe from swallowing touch events
+document.getElementById('modal-iframe').addEventListener('touchstart', function(e) {
+    e.stopPropagation();
+});
 </script>
