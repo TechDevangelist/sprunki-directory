@@ -8,7 +8,7 @@ title: Sprunki
 <div class="game-grid">
     {% for game in site.games %}
         <div class="game-tile" onclick="openModal('{{ game.iframe_url }}')">
-            <img src="{{ site.baseurl }}/assets/games/{{ game.screenshot }}" alt="{{ game.title }}">
+            <img src="{{ site.baseurl }}{{ game.screenshot }}" alt="{{ game.title }}">
             <h3>{{ game.title }}</h3>
         </div>
     {% endfor %}
