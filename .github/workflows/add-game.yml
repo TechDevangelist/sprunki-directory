@@ -59,8 +59,8 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config --global user.name "openhands"
-          git config --global user.email "openhands@all-hands.dev"
+          git config --global user.name "sprunki-action"
+          git config --global user.email "sprunki-action@localhots"
           git add .
           git commit -m "Add new game: ${{ inputs.title }}"
           git push origin main
