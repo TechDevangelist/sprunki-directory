@@ -21,39 +21,120 @@ title: Sprunki
     </div>
 </div>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="new-styles.css">
+
 <style>
     .game-grid {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 20px;
         margin-top: 20px;
+        padding: 10px;
     }
+    
     .game-tile {
-        width: 200px;
         text-align: center;
         background-color: #1e1e1e;
         padding: 10px;
         border-radius: 10px;
         transition: transform 0.2s;
         cursor: pointer;
+        aspect-ratio: 1/1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
+    
     .game-tile:hover {
         transform: scale(1.05);
     }
+    
     .game-tile img {
         width: 100%;
         height: auto;
+        max-height: 80%;
         border-radius: 10px;
+        object-fit: cover;
     }
+    
     .game-tile h3 {
         margin-top: 10px;
-        font-size: 1.2em;
+        font-size: clamp(0.9rem, 2vw, 1.2rem);
     }
+    
+    @media (max-width: 600px) {
+        .game-grid {
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+        
+        .game-tile {
+            padding: 8px;
+        }
+        
+        .game-tile h3 {
+            font-size: 0.9rem;
+        }
+    }
+</style>
     .modal {
+@media (max-width: 768px) {
+        .modal-content {
+            padding: 15px;
+            width: 98%;
+            height: 98%;
+            margin: 5px;
+        }
+        
+        .close {
+            font-size: 30px;
+            top: 5px;
+            right: 5px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .modal-content {
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .close {
+            font-size: 24px;
+            padding: 5px;
+        }
+    }
         display: none;
         position: fixed;
         z-index: 1000;
         left: 0;
+@media (max-width: 768px) {
+        .modal-content {
+            padding: 15px;
+            width: 98%;
+            height: 98%;
+            margin: 5px;
+        }
+        
+        .close {
+            font-size: 30px;
+            top: 5px;
+            right: 5px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .modal-content {
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .close {
+            font-size: 24px;
+            padding: 5px;
+        }
+    }
         top: 0;
         width: 100%;
         height: 100%;
