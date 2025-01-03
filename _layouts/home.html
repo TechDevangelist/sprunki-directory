@@ -1,9 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }}</title>
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/home.css">
 </head>
 <body>
     {{ content }}
+
+    <div class="game-grid">
+        {% for game in site.games %}
+            <div class="game-tile" onclick="openModal('{{ game.iframe_url }}')">
+                <img src="{{ site.baseurl }}{{ game.screenshot }}" alt="{{ game.title }}">
+                <h3>{{ game.title }}</h3>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <iframe id="modal-iframe" src="" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function openModal(iframeUrl) {
+            const modal = document.getElementById('modal');
+            const iframe = document.getElementById('modal-iframe');
+            iframe.src = iframeUrl;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            const iframe = document.getElementById('modal-iframe');
+            iframe.src = '';
+            modal.style.display = 'none';
+        }
+
+        function handleModalClose(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        window.addEventListener('click', handleModalClose);
+        window.addEventListener('touchend', handleModalClose);
+
+        document.getElementById('modal-iframe').addEventListener('touchstart', function(e) {
+            e.stopPropagation();
+        });
+    </script>
 </body>
 </html>
