@@ -7,23 +7,25 @@
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/home.css">
 </head>
 <body>
-    {{ content }}
-
-    <div class="game-grid">
-        {% for game in site.games %}
-            <div class="game-tile" onclick="openModal('{{ game.iframe_url }}')">
-                <img src="{{ site.baseurl }}{{ game.screenshot }}" alt="{{ game.title }}">
-                <h3>{{ game.title }}</h3>
-            </div>
-        {% endfor %}
-    </div>
-
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <iframe id="modal-iframe" src="" frameborder="0"></iframe>
+    <main>
+        {{ content }}
+        
+        <div class="game-grid">
+            {% for game in site.games %}
+                <div class="game-tile" onclick="openModal('{{ game.iframe_url }}')">
+                    <img src="{{ site.baseurl }}{{ game.screenshot }}" alt="{{ game.title }}">
+                    <h3>{{ game.title }}</h3>
+                </div>
+            {% endfor %}
         </div>
-    </div>
+
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <iframe id="modal-iframe" src="" frameborder="0"></iframe>
+            </div>
+        </div>
+    </main>
 
     <script>
         function openModal(iframeUrl) {

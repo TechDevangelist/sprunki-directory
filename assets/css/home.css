@@ -1,3 +1,61 @@
+:root {
+    --bg-color: #1e1e1e;
+    --text-color: #ffffff;
+    --accent-color: #3f51b5;
+    --hover-color: #303f9f;
+    --modal-bg: rgba(0, 0, 0, 0.8);
+    --modal-content-bg: #121212;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.game-tile {
+    text-align: center;
+    background-color: var(--bg-color);
+    padding: 10px;
+    border-radius: 10px;
+    transition: transform 0.2s;
+    cursor: pointer;
+    aspect-ratio: 1/1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid var(--accent-color);
+}
+
+.game-tile:hover {
+    transform: scale(1.05);
+    border-color: var(--hover-color);
+}
+
+.game-tile img {
+    width: 100%;
+    height: auto;
+    max-height: 80%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.game-tile h3 {
+    margin-top: 10px;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    color: var(--text-color);
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -6,14 +64,14 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: var(--modal-bg);
     justify-content: center;
     align-items: center;
 }
 
 .modal-content {
     position: relative;
-    background-color: #121212;
+    background-color: var(--modal-content-bg);
     padding: 20px;
     border-radius: 10px;
     width: 95%;
@@ -24,7 +82,36 @@
     touch-action: manipulation;
 }
 
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: var(--text-color);
+    font-size: 36px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1001;
+}
+
+.close:hover {
+    color: var(--hover-color);
+}
+
 @media (max-width: 768px) {
+    .game-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+    }
+    
+    .game-tile {
+        padding: 8px;
+    }
+    
+    .game-tile h3 {
+        font-size: 0.9rem;
+    }
+    
     .modal-content {
         padding: 15px;
         width: 98%;
@@ -34,12 +121,14 @@
     
     .close {
         font-size: 30px;
-        top: 5px;
-        right: 5px;
     }
 }
 
 @media (max-width: 480px) {
+    .game-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
+    
     .modal-content {
         padding: 10px;
         border-radius: 5px;
